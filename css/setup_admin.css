@@ -1,0 +1,126 @@
+/* Setup Admin Styles */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+}
+
+.container {
+    background: white;
+    padding: 40px;
+    border-radius: 16px;
+    box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+    max-width: 600px;
+    width: 100%;
+}
+
+h1 {
+    color: #333;
+    margin-bottom: 30px;
+    text-align: center;
+    font-size: 28px;
+}
+
+h2 {
+    color: #555;
+    margin: 25px 0 15px 0;
+    font-size: 20px;
+}
+
+.success {
+    color: #155724;
+    padding: 20px;
+    background: #d4edda;
+    border: 2px solid #c3e6cb;
+    border-radius: 8px;
+    margin: 20px 0;
+    font-size: 18px;
+    font-weight: 600;
+}
+
+.error {
+    color: #721c24;
+    padding: 20px;
+    background: #f8d7da;
+    border: 2px solid #f5c6cb;
+    border-radius: 8px;
+    margin: 20px 0;
+}
+
+.warning {
+    color: #856404;
+    padding: 20px;
+    background: #fff3cd;
+    border: 2px solid #ffc107;
+    border-radius: 8px;
+    margin: 20px 0;
+    font-weight: bold;
+}
+
+.info {
+    background: #e7f3ff;
+    padding: 20px;
+    border-left: 5px solid #2196F3;
+    margin: 20px 0;
+    border-radius: 4px;
+}
+
+.info p {
+    margin: 10px 0;
+    font-size: 16px;
+}
+
+.info strong {
+    color: #1976d2;
+    min-width: 100px;
+    display: inline-block;
+}
+
+.btn {
+    display: inline-block;
+    padding: 12px 30px;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    text-decoration: none;
+    border-radius: 6px;
+    margin: 10px 5px;
+    font-weight: 600;
+    transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 5px 20px rgba(102, 126, 234, 0.4);
+}
+
+.btn-secondary {
+    background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+}
+
+pre {
+    background: #2d2d2d;
+    color: #f8f8f2;
+    padding: 15px;
+    border-radius: 6px;
+    overflow-x: auto;
+    font-size: 14px;
+    margin: 10px 0;
+}
+
+.emoji {
+    font-size: 24px;
+}
+
+.text-center {
+    text-align: center;
+}

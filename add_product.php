@@ -3,7 +3,7 @@ session_start();
 error_reporting(E_ALL);
 ini_set('display_errors', 1);
 if (!isset($_SESSION['admin_id'])) {
-    header('Location: dangnhapAdmin.php');
+    header('Location: admin_login.php');
     exit();
 }
 
@@ -111,61 +111,7 @@ $categories = $conn->query("SELECT * FROM categories");
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Thêm Sản Phẩm - TTHUONG STORE</title>
     <link rel="stylesheet" href="css/admin.css">
-    <style>
-        .container {
-            max-width: 800px;
-            margin: 20px auto;
-            padding: 20px;
-            background: #fff;
-            border-radius: 8px;
-            box-shadow: 0 0 10px rgba(0,0,0,0.1);
-        }
-        
-        .form-group {
-            margin-bottom: 20px;
-        }
-        
-        label {
-            display: block;
-            margin-bottom: 5px;
-            font-weight: bold;
-        }
-        
-        input[type="text"],
-        input[type="number"],
-        textarea,
-        select {
-            width: 100%;
-            padding: 8px;
-            border: 1px solid #ddd;
-            border-radius: 4px;
-            box-sizing: border-box;
-        }
-        
-        textarea {
-            height: 100px;
-            resize: vertical;
-        }
-        
-        .submit-btn {
-            background-color: #ebe9e5;
-            color: #000;
-            padding: 10px 20px;
-            border: none;
-            border-radius: 4px;
-            cursor: pointer;
-            width: 100%;
-        }
-        
-        .submit-btn:hover {
-            background-color: #d3cbb8;
-        }
-        
-        .preview-image {
-            max-width: 200px;
-            margin-top: 10px;
-        }
-    </style>
+    <link rel="stylesheet" href="css/add_product.css">
 </head>
 <body>
     <div class="container">

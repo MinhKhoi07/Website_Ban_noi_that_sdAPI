@@ -4,7 +4,7 @@ require_once 'config/connect.php';
 
 // Kiểm tra đăng nhập admin
 if(!isset($_SESSION['admin_id'])) {
-    header('Location: dangnhap.php');
+    header('Location: login_page.php');
     exit();
 }
 ?>
@@ -68,6 +68,11 @@ if(!isset($_SESSION['admin_id'])) {
                     <a href="admin/users.php" class="action-card">
                         <i class="fas fa-users"></i>
                         <span>Quản Lý Người Dùng</span>
+                    </a>
+                    
+                    <a href="admin_reviews.php" class="action-card">
+                        <i class="fas fa-star"></i>
+                        <span>Quản Lý Đánh Giá</span>
                     </a>
                     
                     <a href="admin/categories.php" class="action-card">

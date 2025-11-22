@@ -1,0 +1,438 @@
+/* Modal Styles */
+.modal {
+    display: none;
+    position: fixed;
+    z-index: 99999;
+    left: 0;
+    top: 0;
+    width: 100vw;
+    height: 100vh;
+    overflow: auto;
+    background-color: rgba(0, 0, 0, 0.7);
+    align-items: center;
+    justify-content: center;
+}
+
+.modal-content {
+    background-color: #fff !important;
+    margin: auto;
+    padding: 0;
+    border-radius: 12px;
+    width: 90%;
+    max-width: 600px;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5);
+    animation: slideDown 0.3s ease-out;
+    position: relative;
+    max-height: 90vh;
+    overflow: visible;
+    display: flex;
+    flex-direction: column;
+}
+
+#orderModal form {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    width: 100%;
+}
+
+@keyframes slideDown {
+    from {
+        transform: translateY(-50px);
+        opacity: 0;
+    }
+    to {
+        transform: translateY(0);
+        opacity: 1;
+    }
+}
+
+.modal-header {
+    background: linear-gradient(135deg, #EBE9E5 0%, #d4d2ce 100%);
+    padding: 20px 25px;
+    border-radius: 12px 12px 0 0;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 2px solid #333;
+}
+
+.modal-header h2 {
+    margin: 0;
+    color: #333;
+    font-size: 1.5em;
+    font-weight: 600;
+}
+
+.modal-header h2 i {
+    margin-right: 10px;
+    color: #555;
+}
+
+.close-modal {
+    color: #666;
+    font-size: 32px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: all 0.3s;
+    line-height: 1;
+    padding: 0 5px;
+}
+
+.close-modal:hover,
+.close-modal:focus {
+    color: #333;
+    transform: rotate(90deg);
+}
+
+.modal-body {
+    padding: 30px 25px !important;
+    max-height: calc(90vh - 250px);
+    overflow-y: auto !important;
+    background: #fff !important;
+    flex: 1 1 auto;
+    display: block !important;
+    visibility: visible !important;
+    opacity: 1 !important;
+    height: auto !important;
+}
+
+#orderModal .modal-body .form-group {
+    margin-bottom: 20px !important;
+    display: block !important;
+    visibility: visible !important;
+    opacity: 1 !important;
+    height: auto !important;
+}
+
+#orderModal .modal-body .form-group label {
+    display: block !important;
+    margin-bottom: 8px;
+    color: #333;
+    font-weight: 500;
+    font-size: 0.95em;
+    visibility: visible !important;
+}
+
+#orderModal .modal-body .form-group label i {
+    margin-right: 8px;
+    color: #666;
+    width: 18px;
+    display: inline-block;
+}
+
+#orderModal .modal-body .form-group input,
+#orderModal .modal-body .form-group textarea {
+    width: 100%;
+    padding: 12px 15px;
+    border: 2px solid #ddd;
+    border-radius: 8px;
+    font-size: 0.95em;
+    transition: all 0.3s;
+    font-family: inherit;
+    box-sizing: border-box;
+    background: #fff;
+    display: block !important;
+    visibility: visible !important;
+}
+
+#orderModal .modal-body .form-group input:focus,
+#orderModal .modal-body .form-group textarea:focus {
+    outline: none;
+    border-color: #333;
+    box-shadow: 0 0 0 3px rgba(51, 51, 51, 0.1);
+}
+
+#orderModal .modal-body .form-group textarea {
+    resize: vertical;
+    min-height: 80px;
+}
+
+.order-summary-modal {
+    background: linear-gradient(135deg, #f8f8f8 0%, #EBE9E5 100%);
+    padding: 20px;
+    border-radius: 10px;
+    margin-top: 25px;
+    display: flex !important;
+    justify-content: space-between;
+    align-items: center;
+    border: 2px solid #333;
+    visibility: visible !important;
+}
+
+.order-summary-modal h3 {
+    margin: 0;
+    color: #333;
+    font-size: 1.1em;
+    font-weight: 600;
+    display: block !important;
+}
+
+.order-summary-modal h3 i {
+    margin-right: 10px;
+    color: #555;
+}
+
+.modal-total {
+    font-size: 1.8em;
+    font-weight: bold;
+    color: #333;
+    display: block !important;
+}
+
+.modal-footer {
+    padding: 20px 25px;
+    border-top: 1px solid #e0e0e0;
+    display: flex !important;
+    justify-content: flex-end;
+    gap: 15px;
+    background: #f9f9f9;
+    border-radius: 0 0 12px 12px;
+    flex-shrink: 0;
+}
+
+.btn-cancel,
+.btn-confirm {
+    padding: 12px 30px;
+    border: none;
+    border-radius: 8px;
+    font-size: 1em;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.btn-cancel {
+    background-color: #e0e0e0;
+    color: #333;
+}
+
+.btn-cancel:hover {
+    background-color: #ccc;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+.btn-confirm {
+    background-color: #333;
+    color: white;
+}
+
+.btn-confirm:hover:not(:disabled) {
+    background-color: #000;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+}
+
+.btn-confirm:disabled {
+    background-color: #999;
+    cursor: not-allowed;
+    opacity: 0.7;
+}
+
+.btn-order-main {
+    width: 100%;
+    padding: 15px 30px;
+    background-color: #333;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-size: 1.1em;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s;
+    margin-top: 15px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+}
+
+.btn-order-main:hover {
+    background-color: #000;
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
+}
+
+.btn-order-main i {
+    font-size: 1.2em;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .modal-content {
+        width: 95%;
+        margin: 10% auto;
+    }
+
+    .modal-header h2 {
+        font-size: 1.2em;
+    }
+
+    .modal-body {
+        padding: 20px 15px;
+    }
+
+    .modal-footer {
+        flex-direction: column;
+        gap: 10px;
+    }
+
+    .btn-cancel,
+    .btn-confirm {
+        width: 100%;
+        justify-content: center;
+    }
+
+    .order-summary-modal {
+        flex-direction: column;
+        gap: 10px;
+        text-align: center;
+    }
+}
+
+
+.order-summary-modal {
+    background: linear-gradient(135deg, #f8f8f8 0%, #EBE9E5 100%);
+    padding: 20px;
+    border-radius: 10px;
+    margin-top: 25px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border: 2px solid #333;
+}
+
+.order-summary-modal h3 {
+    margin: 0;
+    color: #333;
+    font-size: 1.1em;
+    font-weight: 600;
+}
+
+.order-summary-modal h3 i {
+    margin-right: 10px;
+    color: #555;
+}
+
+.modal-total {
+    font-size: 1.8em;
+    font-weight: bold;
+    color: #333;
+}
+
+.modal-footer {
+    padding: 20px 25px;
+    border-top: 1px solid #e0e0e0;
+    display: flex;
+    justify-content: flex-end;
+    gap: 15px;
+    background: #f9f9f9;
+    border-radius: 0 0 12px 12px;
+}
+
+.btn-cancel,
+.btn-confirm {
+    padding: 12px 30px;
+    border: none;
+    border-radius: 8px;
+    font-size: 1em;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.btn-cancel {
+    background-color: #e0e0e0;
+    color: #333;
+}
+
+.btn-cancel:hover {
+    background-color: #ccc;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+.btn-confirm {
+    background-color: #333;
+    color: white;
+}
+
+.btn-confirm:hover:not(:disabled) {
+    background-color: #000;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+}
+
+.btn-confirm:disabled {
+    background-color: #999;
+    cursor: not-allowed;
+    opacity: 0.7;
+}
+
+.btn-order-main {
+    width: 100%;
+    padding: 15px 30px;
+    background-color: #333;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-size: 1.1em;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s;
+    margin-top: 15px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+}
+
+.btn-order-main:hover {
+    background-color: #000;
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
+}
+
+.btn-order-main i {
+    font-size: 1.2em;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .modal-content {
+        width: 95%;
+        margin: 10% auto;
+    }
+
+    .modal-header h2 {
+        font-size: 1.2em;
+    }
+
+    .modal-body {
+        padding: 20px 15px;
+    }
+
+    .modal-footer {
+        flex-direction: column;
+        gap: 10px;
+    }
+
+    .btn-cancel,
+    .btn-confirm {
+        width: 100%;
+        justify-content: center;
+    }
+
+    .order-summary-modal {
+        flex-direction: column;
+        gap: 10px;
+        text-align: center;
+    }
+}

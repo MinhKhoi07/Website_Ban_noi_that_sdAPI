@@ -1,5 +1,11 @@
 <?php
+session_start();
 require_once 'config/connect.php';
+
+if (!isset($_SESSION['admin_id'])) {
+    header('Location: admin_login.php');
+    exit();
+}
 
 // Lấy danh sách users từ database
 $sql = "SELECT * FROM users ORDER BY user_id DESC";
@@ -16,110 +22,17 @@ if (!$result) {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Quản Lý Người Dùng - TTHUONG Store</title>
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        body {
-            font-family: Arial, sans-serif;
-            background-color: #f4f6f9;
-            color: #333;
-        }
-
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 20px;
-        }
-
-        h1 {
-            color: #2c3e50;
-            text-align: center;
-            margin: 20px 0;
-            font-size: 2em;
-        }
-
-        /* Style cho bảng */
-        table {
-            width: 100%;
-            background: white;
-            border-radius: 8px;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-            border-collapse: collapse;
-            margin: 20px 0;
-            overflow: hidden;
-        }
-
-        th, td {
-            padding: 15px;
-            text-align: left;
-            border-bottom: 1px solid #eee;
-        }
-
-        th {
-            background-color: #333333;
-            color: white;
-            font-weight: 600;
-        }
-
-        tr:hover {
-            background-color: #f5f5f5;
-        }
-
-        /* Style cho nút */
-        .back-btn {
-            display: inline-flex;
-            align-items: center;
-            background-color: #333333;
-            color: white;
-            padding: 12px 20px;
-            border: none;
-            border-radius: 4px;
-            cursor: pointer;
-            font-size: 16px;
-            text-decoration: none;
-            transition: all 0.3s ease;
-            margin-bottom: 20px;
-        }
-
-        .back-btn:hover {
-            background-color: #444444;
-            transform: translateY(-2px);
-        }
-
-        .back-btn i {
-            margin-right: 8px;
-        }
-
-        /* Style cho trạng thái */
-        .status {
-            padding: 5px 10px;
-            border-radius: 4px;
-            font-size: 14px;
-            font-weight: 500;
-        }
-
-        .active {
-            background-color: #e8f5e9;
-            color: #2e7d32;
-        }
-
-        .inactive {
-            background-color: #ffebee;
-            color: #c62828;
-        }
-    </style>
+    <link rel="stylesheet" href="css/admin.css">
+    <link rel="stylesheet" href="css/admin_users.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
 </head>
 <body>
+    <?php include 'admin_header.php'; ?>
+
+    <main>
     <div class="container">
         <h1>Quản Lý Người Dùng</h1>
-        
-        <a href="QTVindex.php" class="back-btn">
-            <i class="fas fa-arrow-left"></i> Quay về Trang Quản Trị
-        </a>
 
         <table>
             <thead>
@@ -159,6 +72,9 @@ if (!$result) {
             </tbody>
         </table>
     </div>
+    </main>
+
+    <?php include 'admin_footer.php'; ?>
 </body>
 </html>
 

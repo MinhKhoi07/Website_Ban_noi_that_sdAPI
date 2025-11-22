@@ -3,7 +3,7 @@ session_start();
 require_once('config/connect.php');
 
 if (!isset($_SESSION['user_id'])) {
-    header('Location: dangnhap.php');
+    header('Location: login_page.php');
     exit();
 }
 
@@ -11,8 +11,11 @@ $user_id = $_SESSION['user_id'];
 
 // Lấy thông tin người dùng
 $stmt = $conn->prepare("SELECT * FROM users WHERE user_id = ?");
-$stmt->execute([$user_id]);
-$user = $stmt->fetch();
+$stmt->bind_param("i", $user_id);
+$stmt->execute();
+$result = $stmt->get_result();
+$user = $result->fetch_assoc();
+$stmt->close();
 
 // Lấy lịch sử đơn hàng
 $stmt = $conn->prepare("
@@ -22,8 +25,11 @@ $stmt = $conn->prepare("
     WHERE o.user_id = ? 
     ORDER BY o.created_at DESC
 ");
-$stmt->execute([$user_id]);
-$orders = $stmt->fetchAll();
+$stmt->bind_param("i", $user_id);
+$stmt->execute();
+$result = $stmt->get_result();
+$orders = $result->fetch_all(MYSQLI_ASSOC);
+$stmt->close();
 ?>
 
 <!DOCTYPE html>

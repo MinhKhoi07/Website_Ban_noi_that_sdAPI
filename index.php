@@ -617,8 +617,8 @@ body {
 }
 
 /* Special Buttons */
-.main-nav a[href="dangnhap.php"],
-.main-nav a[href="dangky.php"] {
+.main-nav a[href="login_page.php"],
+.main-nav a[href="register_page.php"] {
     padding: 0.8rem 1.5rem;
     border: 2px solid black;
     color: black !important;
@@ -635,14 +635,14 @@ body {
 }
 
 /* Remove ALL possible outlines and focus effects */
-.main-nav a[href="dangnhap.php"]:focus,
-.main-nav a[href="dangky.php"]:focus,
-.main-nav a[href="dangnhap.php"]:active,
-.main-nav a[href="dangky.php"]:active,
-.main-nav a[href="dangnhap.php"]:focus-visible,
-.main-nav a[href="dangky.php"]:focus-visible,
-.main-nav a[href="dangnhap.php"]:focus-within,
-.main-nav a[href="dangky.php"]:focus-within {
+.main-nav a[href="login_page.php"]:focus,
+.main-nav a[href="register_page.php"]:focus,
+.main-nav a[href="login_page.php"]:active,
+.main-nav a[href="register_page.php"]:active,
+.main-nav a[href="login_page.php"]:focus-visible,
+.main-nav a[href="register_page.php"]:focus-visible,
+.main-nav a[href="login_page.php"]:focus-within,
+.main-nav a[href="register_page.php"]:focus-within {
     outline: none !important;
     box-shadow: none !important;
     border-color: black !important;
@@ -651,20 +651,20 @@ body {
 
 /* Responsive adjustments */
 @media (max-width: 768px) {
-    .main-nav a[href="dangnhap.php"],
-    .main-nav a[href="dangky.php"] {
+    .main-nav a[href="login_page.php"],
+    .main-nav a[href="register_page.php"] {
         padding: 0.6rem 1.2rem;
         font-size: 0.85rem;
     }
 }
 
-.main-nav a[href="dangky.php"] {
+.main-nav a[href="register_page.php"] {
     background: linear-gradient(135deg, var(--primary-color), var(--accent-color));
     color: white;
     box-shadow: 0 4px 12px rgba(41, 98, 255, 0.2);
 }
 
-.main-nav a[href="dangky.php"]:hover {
+.main-nav a[href="register_page.php"]:hover {
     transform: translateY(-2px);
     box-shadow: 0 6px 16px rgba(41, 98, 255, 0.3);
 }
@@ -2162,9 +2162,9 @@ button:hover i,
                     <li><a href="dschua.php">Danh sách chùa</a></li>
                     <li><a href="sukien.php">Sự kiện</a></li>
                     <li><a href="lienhe.php">Liên hệ</a></li>
-                    <li><a href="taikhoan.php">Tài khoản</a></li>
-                    <li><a href="dangnhap.php">Đăng nhập</a></li>
-                    <li><a href="dangky.php">Đăng ký</a></li>
+                    <li><a href="account.php">Tài khoản</a></li>
+                    <li><a href="login_page.php">Đăng nhập</a></li>
+                    <li><a href="register_page.php">Đăng ký</a></li>
                 </ul>
             </nav>
             </div>
@@ -2257,7 +2257,7 @@ button:hover i,
                     <button type="submit" class="btn btn-primary">Gửi bình luận</button>
                 </form>
             <?php else: ?>
-                <p class="login-prompt">Vui lòng <a href="dangnhap.php">Đăng nhập</a> để được bình luận.</p>
+                <p class="login-prompt">Vui lòng <a href="login_page.php">Đăng nhập</a> để được bình luận.</p>
             <?php endif; ?>
 
 <!-- Danh sách bình luận -->
@@ -2658,7 +2658,7 @@ function submitReply(event, commentId) {
     event.preventDefault();
     
     if (!isLoggedIn) {
-        window.location.href = 'dangnhap.php';
+        window.location.href = 'login_page.php';
         return;
     }
 
@@ -2772,7 +2772,7 @@ $(document).ready(function() {
         e.preventDefault();
         
         if (!isLoggedIn) {
-            window.location.href = 'dangnhap.php';
+            window.location.href = 'login_page.php';
             return;
         }
 

@@ -1,0 +1,179 @@
+/* Admin Orders Management Styles */
+.admin-orders {
+    max-width: 1200px;
+    margin: 20px auto;
+    padding: 20px;
+}
+
+.order-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+    background: white;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+}
+
+.order-table th, .order-table td {
+    padding: 12px;
+    text-align: left;
+    border-bottom: 1px solid #ddd;
+}
+
+.order-table th {
+    background-color: #f8f9fa;
+    font-weight: bold;
+}
+
+.status-select {
+    padding: 8px 12px;
+    border: 2px solid #ddd;
+    border-radius: 6px;
+    font-size: 14px;
+    background: white;
+    cursor: pointer;
+    transition: all 0.3s;
+    min-width: 150px;
+}
+
+.status-select:focus {
+    border-color: #333;
+    outline: none;
+}
+
+.btn-update-status {
+    padding: 8px 15px;
+    background: #333;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 14px;
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    transition: all 0.3s;
+    white-space: nowrap;
+}
+
+.btn-update-status:hover {
+    background: #000;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+}
+
+.view-details {
+    color: #333;
+    cursor: pointer;
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    padding: 8px 15px;
+    background: #EBE9E5;
+    border-radius: 6px;
+    transition: all 0.3s;
+}
+
+.view-details:hover {
+    background: #333;
+    color: white;
+}
+
+.order-details {
+    display: none;
+    padding: 20px;
+    background: #f9f9f9;
+    border-radius: 8px;
+    margin: 10px 0;
+}
+
+.order-details h4 {
+    margin: 0 0 15px 0;
+    color: #333;
+    font-size: 18px;
+}
+
+.order-details p {
+    margin: 8px 0;
+    color: #666;
+}
+
+.order-details table {
+    width: 100%;
+    margin-top: 15px;
+    border-collapse: collapse;
+}
+
+.order-details table th,
+.order-details table td {
+    padding: 10px;
+    text-align: left;
+    border-bottom: 1px solid #ddd;
+}
+
+.order-details table th {
+    background: #EBE9E5;
+    font-weight: 600;
+    color: #333;
+}
+
+.status-badge {
+    padding: 5px 10px;
+    border-radius: 15px;
+    font-weight: bold;
+}
+
+.status-pending {
+    background: #ffeeba;
+    color: #856404;
+}
+
+.status-confirmed {
+    background: #cce5ff;
+    color: #004085;
+}
+
+.status-shipping {
+    background: #d4edda;
+    color: #155724;
+}
+
+.status-delivered {
+    background: #c3e6cb;
+    color: #1e7e34;
+}
+
+.status-cancelled {
+    background: #f8d7da;
+    color: #721c24;
+}
+
+.button-container {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin: 20px 0;
+}
+
+.back-btn, .add-product-btn {
+    display: inline-flex;
+    align-items: center;
+    background-color: #333333;
+    color: white;
+    padding: 12px 20px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 16px;
+    text-decoration: none;
+    transition: all 0.3s ease;
+}
+
+.back-btn:hover, .add-product-btn:hover {
+    background-color: #444444;
+    transform: translateY(-2px);
+}
+
+.back-btn i, .add-product-btn i {
+    margin-right: 8px;
+}

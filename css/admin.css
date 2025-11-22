@@ -252,6 +252,26 @@ tr:hover {
     margin: 0;
 }
 
+.stat-card .view-detail {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    margin-top: 8px;
+    font-size: 0.85em;
+    color: #666;
+    text-decoration: none;
+    transition: all 0.3s;
+}
+
+.stat-card .view-detail:hover {
+    color: #333;
+    gap: 8px;
+}
+
+.stat-card .view-detail i {
+    font-size: 12px;
+}
+
 /* Reset và cài đặt cơ bản */
 * {
     margin: 0;
@@ -277,13 +297,43 @@ header {
     max-width: 1400px;
     margin: 0 auto;
     padding: 0 2rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1rem;
+    gap: 2rem;
 }
 
 .logo-section {
     display: flex;
     align-items: center;
     gap: 1rem;
-    margin-bottom: 1rem;
+    flex: 1;
+}
+
+.logout-section {
+    flex-shrink: 0;
+}
+
+.btn-logout {
+    background-color: #dc3545;
+    color: #fff !important;
+    padding: 0.7rem 1.5rem;
+    border-radius: 5px;
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    transition: all 0.3s ease;
+    font-weight: 500;
+    font-size: 1rem;
+    white-space: nowrap;
+}
+
+.btn-logout:hover {
+    background-color: #c82333;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(220, 53, 69, 0.3);
 }
 
 .admin-logo {
@@ -295,6 +345,12 @@ header {
 header h1 {
     color: #000;
     font-size: 1.8rem;
+}
+
+nav {
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 0 2rem;
 }
 
 nav ul {
@@ -318,6 +374,12 @@ nav a {
 nav a:hover {
     background-color: rgba(0,0,0,0.1);
     transform: translateY(-2px);
+}
+
+nav a.active {
+    background-color: #333 !important;
+    color: #fff !important;
+    font-weight: 500;
 }
 
 /* Main Content */

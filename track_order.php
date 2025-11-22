@@ -3,7 +3,7 @@ session_start();
 require_once 'config/connect.php';
 
 if (!isset($_SESSION['user_id'])) {
-    header('Location: dangnhap.php');
+    header('Location: login_page.php');
     exit();
 }
 
@@ -24,97 +24,8 @@ $orders = $order_stmt->get_result();
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Theo dõi đơn hàng - TTHUONG Store</title>
     <link rel="stylesheet" href="css/styles.css">
+    <link rel="stylesheet" href="css/theodoidonhang.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-    <style>
-        .order-tracking {
-            max-width: 1200px;
-            margin: 20px auto;
-            padding: 20px;
-        }
-
-        .order-card {
-            background: white;
-            border-radius: 10px;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-            margin-bottom: 20px;
-            padding: 20px;
-        }
-
-        .order-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            border-bottom: 2px solid #EBE9E5;
-            padding-bottom: 10px;
-            margin-bottom: 15px;
-        }
-
-        .order-status {
-            padding: 5px 15px;
-            border-radius: 15px;
-            font-weight: bold;
-        }
-
-        .status-pending {
-            background: #ffeeba;
-            color: #856404;
-        }
-
-        .status-confirmed {
-            background: #cce5ff;
-            color: #004085;
-        }
-
-        .status-shipping {
-            background: #d4edda;
-            color: #155724;
-        }
-
-        .status-delivered {
-            background: #c3e6cb;
-            color: #1e7e34;
-        }
-
-        .status-cancelled {
-            background: #f8d7da;
-            color: #721c24;
-        }
-
-        .order-details {
-            margin-top: 15px;
-        }
-
-        .product-list {
-            margin-top: 15px;
-        }
-
-        .product-item {
-            display: flex;
-            align-items: center;
-            padding: 10px;
-            border-bottom: 1px solid #eee;
-        }
-
-        .product-item img {
-            width: 80px;
-            height: 80px;
-            object-fit: cover;
-            border-radius: 5px;
-            margin-right: 15px;
-        }
-
-        .total-amount {
-            text-align: right;
-            font-weight: bold;
-            margin-top: 15px;
-            font-size: 1.1em;
-        }
-
-        .empty-orders {
-            text-align: center;
-            padding: 50px 20px;
-        }
-    </style>
 </head>
 <body>
     <?php include 'header.php'; ?>
@@ -130,8 +41,8 @@ $orders = $order_stmt->get_result();
                             <h3>Đơn hàng #<?php echo $order['order_id']; ?></h3>
                             <p>Ngày đặt: <?php echo date('d/m/Y H:i', strtotime($order['order_date'])); ?></p>
                         </div>
-                        <span class="order-status status-<?php echo strtolower($order['status']); ?>">
-                            <?php echo $order['status']; ?>
+                        <span class="order-status status-<?php echo strtolower($order['order_status']); ?>">
+                            <?php echo $order['order_status']; ?>
                         </span>
                     </div>
 
@@ -175,7 +86,7 @@ $orders = $order_stmt->get_result();
                         </div>
                     </div>
 
-                    <?php if ($order['status'] == 'Đã giao hàng'): ?>
+                    <?php if ($order['order_status'] == 'Đã giao hàng'): ?>
                         <div class="review-section">
                             <h4>Đánh giá sản phẩm</h4>
                             <?php
@@ -232,7 +143,7 @@ $orders = $order_stmt->get_result();
                 <i class="fas fa-box-open fa-3x"></i>
                 <h3>Bạn chưa có đơn hàng nào</h3>
                 <p>Hãy đặt hàng để xem thông tin đơn hàng tại đây</p>
-                <a href="sanpham.php" class="btn-order">Mua sắm ngay</a>
+                <a href="products.php" class="btn-order">Mua sắm ngay</a>
             </div>
         <?php endif; ?>
     </div>

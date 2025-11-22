@@ -59,7 +59,7 @@ require_once 'config/connect.php'; // Thêm kết nối database nếu cần
     </main>
 
     <div class="home-flag">
-        <a href="trangchu.php" class="back-home">Quay về Trang Chủ</a>
+        <a href="home.php" class="back-home">Quay về Trang Chủ</a>
     </div>
 
     <div class="footer">

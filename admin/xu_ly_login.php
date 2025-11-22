@@ -25,16 +25,8 @@ try {
         throw new Exception('Vui lòng nhập đầy đủ thông tin');
     }
 
-    // Kiểm tra xem username có phải là 'admin' không
-    if ($username === 'admin' && $password === '123456') {
-        $_SESSION['admin_id'] = 1;
-        $_SESSION['admin_username'] = 'admin';
-        echo json_encode(['success' => true]);
-        exit();
-    }
-
-    // Nếu không phải admin mặc định, kiểm tra trong database
-    $sql = "SELECT * FROM users WHERE username = ? AND is_admin = 1 LIMIT 1";
+    // Kiểm tra trong bảng administrators
+    $sql = "SELECT admin_id, username, password FROM administrators WHERE username = ? LIMIT 1";
     $stmt = $conn->prepare($sql);
     
     if (!$stmt) {
@@ -44,11 +36,11 @@ try {
     $stmt->bind_param("s", $username);
     $stmt->execute();
     $result = $stmt->get_result();
-    $user = $result->fetch_assoc();
+    $admin = $result->fetch_assoc();
 
-    if ($user && password_verify($password, $user['password'])) {
-        $_SESSION['admin_id'] = $user['user_id'];
-        $_SESSION['admin_username'] = $user['username'];
+    if ($admin && password_verify($password, $admin['password'])) {
+        $_SESSION['admin_id'] = $admin['admin_id'];
+        $_SESSION['admin_username'] = $admin['username'];
         echo json_encode(['success' => true]);
     } else {
         echo json_encode([
@@ -56,6 +48,8 @@ try {
             'message' => 'Tên đăng nhập hoặc mật khẩu không đúng'
         ]);
     }
+    
+    $stmt->close();
 
 } catch (Exception $e) {
     error_log("Login error: " . $e->getMessage());

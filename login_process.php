@@ -21,7 +21,7 @@ try {
         echo json_encode([
             'success' => true,
             'is_admin' => $user['is_admin'],
-            'redirect' => $user['is_admin'] ? 'admin/dashboard.php' : 'trangchu.php'
+            'redirect' => $user['is_admin'] ? 'admin/dashboard.php' : 'home.php'
         ]);
     } else {
         echo json_encode(['success' => false, 'message' => 'Sai tên đăng nhập hoặc mật khẩu']);

@@ -1,26 +1,33 @@
 <?php
 session_start();
+require_once('config/connect.php');
 
-// Thông tin đăng nhập mặc định - Di chuyển lên trước các xử lý
-$default_username = "Lâm Nhật Hào";
-$default_password = "123456789";
-
-// Xử lý đăng nhập POST - Thêm admin_id vào session
+// Xử lý đăng nhập POST
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $username = trim($_POST['username']);
     $password = trim($_POST['password']);
 
-    if (strcmp($username, $default_username) === 0 && strcmp($password, $default_password) === 0) {
-// Ví dụ trong dangnhapAdmin.php
-// Ví dụ trong dangnhapAdmin.php
-        $_SESSION['admin_id'] = $admin['id'];
-        $_SESSION['admin_name'] = $admin['username'];
-        $_SESSION['admin_id'] = 1; // Thêm dòng này
-        header("Location: QTVindex.php");
-        exit();
-    } else {
-        $error_message = "Tên đăng nhập hoặc mật khẩu không đúng!";
+    // Kiểm tra trong bảng administrators
+    $stmt = $conn->prepare("SELECT admin_id, username, password, full_name FROM administrators WHERE username = ?");
+    $stmt->bind_param("s", $username);
+    $stmt->execute();
+    $result = $stmt->get_result();
+    
+    if ($result->num_rows > 0) {
+        $admin = $result->fetch_assoc();
+        
+        if (password_verify($password, $admin['password'])) {
+            $_SESSION['admin_id'] = $admin['admin_id'];
+            $_SESSION['admin_name'] = $admin['username'];
+            $_SESSION['admin_logged_in'] = true;
+            $_SESSION['admin_username'] = $username;
+            header("Location: dashboard.php");
+            exit();
+        }
     }
+    
+    $error_message = "Tên đăng nhập hoặc mật khẩu không đúng!";
+    $stmt->close();
 }
 
 // Xử lý đăng xuất - Sửa lại phần prepare statement
@@ -34,7 +41,7 @@ if (isset($_GET['action']) && $_GET['action'] === 'logout') {
     }
     
     session_destroy();
-    header("Location: dangnhapAdmin.php");
+    header("Location: admin_login.php");
     exit();
 }
 
@@ -51,7 +58,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     if (strcmp($username, $default_username) === 0 && strcmp($password, $default_password) === 0) {
         $_SESSION['admin_logged_in'] = true;
         $_SESSION['admin_username'] = $username;
-        header("Location: QTVindex.php");
+        header("Location: dashboard.php");
         exit();
     } else {
         $error_message = "Tên đăng nhập hoặc mật khẩu không đúng";
@@ -64,8 +71,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Đăng nhập Admin - Chùa Khmer</title>
-    <style>
+    <title>Đăng nhập Admin - TTHUONG Store</title>
+    <link rel="stylesheet" href="css/dangnhapAdmin.css">
+</head>
         body {
             font-family: 'Roboto', sans-serif;
             background: #f5f6fa;

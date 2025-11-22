@@ -18,10 +18,17 @@ if (empty($username) || empty($password)) {
     exit();
 }
 
-// Kiểm tra tài khoản admin cố định
-if ($username === 'admin' && $password === '123456') {
-    $_SESSION['admin_id'] = 1;
-    $_SESSION['admin_username'] = 'admin';
+// Kiểm tra tài khoản admin trong database
+$admin_sql = "SELECT * FROM administrators WHERE username = ? LIMIT 1";
+$admin_stmt = $conn->prepare($admin_sql);
+$admin_stmt->bind_param("s", $username);
+$admin_stmt->execute();
+$admin_result = $admin_stmt->get_result();
+$admin = $admin_result->fetch_assoc();
+
+if ($admin && password_verify($password, $admin['password'])) {
+    $_SESSION['admin_id'] = $admin['admin_id'];
+    $_SESSION['admin_username'] = $admin['username'];
     echo json_encode(['success' => true, 'is_admin' => true]);
     exit();
 }

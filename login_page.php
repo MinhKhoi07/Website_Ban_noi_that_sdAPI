@@ -40,8 +40,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             error_log("Password verify result: " . (password_verify($password, $user['password']) ? 'true' : 'false'));
         }
 
-        // Thử đăng nhập với mật khẩu trực tiếp (tạm thời để debug)
-        if ($admin && $password === '123456') {
+        // Kiểm tra admin với password_verify
+        if ($admin && password_verify($password, $admin['password'])) {
             $_SESSION['admin_id'] = $admin['admin_id'];
             $_SESSION['username'] = $admin['username'];
             $_SESSION['full_name'] = $admin['full_name'];
@@ -63,9 +63,9 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             $update_stmt->bind_param("i", $admin['admin_id']);
             $update_stmt->execute();
 
-            header('Location: QTVindex.php');
+            header('Location: dashboard.php');
             exit();
-        } elseif ($user && $password === '123456') {
+        } elseif ($user && password_verify($password, $user['password'])) {
             $_SESSION['user_id'] = $user['user_id'];
             $_SESSION['username'] = $user['username'];
             $_SESSION['full_name'] = $user['full_name'];
@@ -74,7 +74,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             $_SESSION['address'] = $user['address'];
             $_SESSION['role'] = 'user';
             
-            header('Location: trangchu.php');
+            header('Location: home.php');
             exit();
         } else {
             $error = 'Tên đăng nhập hoặc mật khẩu không chính xác';
@@ -92,109 +92,76 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Đăng nhập - TTHUONG Store</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            background-color: #f4f4f4;
-            margin: 0;
-            padding: 20px;
-        }
-
-        .form-container {
-            max-width: 400px;
-            margin: 50px auto;
-            background: white;
-            padding: 20px;
-            border-radius: 8px;
-            box-shadow: 0 0 10px rgba(0,0,0,0.1);
-        }
-
-        h2 {
-            text-align: center;
-            color: #333;
-            margin-bottom: 20px;
-        }
-
-        .form-group {
-            margin-bottom: 15px;
-        }
-
-        label {
-            display: block;
-            margin-bottom: 5px;
-            color: #666;
-        }
-
-        input {
-            width: 100%;
-            padding: 8px;
-            border: 1px solid #ddd;
-            border-radius: 4px;
-            box-sizing: border-box;
-        }
-
-        button {
-            width: 100%;
-            padding: 10px;
-            background-color: #333;
-            color: white;
-            border: none;
-            border-radius: 4px;
-            cursor: pointer;
-            margin-top: 10px;
-        }
-
-        button:hover {
-            background-color: #444;
-        }
-
-        .error-message {
-            color: red;
-            text-align: center;
-            margin-bottom: 10px;
-        }
-
-        .form-footer {
-            text-align: center;
-            margin-top: 15px;
-        }
-
-        .form-footer a {
-            color: #333;
-            text-decoration: none;
-        }
-
-        .form-footer a:hover {
-            text-decoration: underline;
-        }
-    </style>
+    <link rel="stylesheet" href="css/auth.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 </head>
 <body>
     <div class="form-container">
-        <h2>Đăng nhập</h2>
+        <h2><i class="fas fa-sign-in-alt"></i> Đăng nhập</h2>
         
         <?php if ($error): ?>
-            <div class="error-message"><?php echo $error; ?></div>
+            <div class="error-message">
+                <i class="fas fa-exclamation-circle"></i> <?php echo htmlspecialchars($error); ?>
+            </div>
         <?php endif; ?>
 
-        <form method="POST" action="">
+        <form method="POST" action="" id="loginForm">
             <div class="form-group">
-                <label for="username">Tên đăng nhập:</label>
-                <input type="text" id="username" name="username" required>
+                <label for="username"><i class="fas fa-user"></i> Tên đăng nhập</label>
+                <input type="text" id="username" name="username" required autofocus
+                       value="<?php echo isset($_POST['username']) ? htmlspecialchars($_POST['username']) : ''; ?>">
             </div>
 
             <div class="form-group">
-                <label for="password">Mật khẩu:</label>
-                <input type="password" id="password" name="password" required>
+                <label for="password"><i class="fas fa-lock"></i> Mật khẩu</label>
+                <div class="input-icon">
+                    <input type="password" id="password" name="password" required>
+                    <i class="fas fa-eye" onclick="togglePassword('password')"></i>
+                </div>
             </div>
 
-            <button type="submit">Đăng nhập</button>
+            <div class="remember-forgot">
+                <label>
+                    <input type="checkbox" name="remember" id="remember">
+                    Ghi nhớ đăng nhập
+                </label>
+                <!-- <a href="forgot_password.php">Quên mật khẩu?</a> -->
+            </div>
+
+            <button type="submit" id="submitBtn">
+                <i class="fas fa-sign-in-alt"></i> Đăng nhập
+            </button>
 
             <div class="form-footer">
-                <p>Chưa có tài khoản? <a href="dangky.php">Đăng ký ngay</a></p>
-                <p><a href="trangchu.php">Quay về trang chủ</a></p>
+                <p>Chưa có tài khoản? <a href="register_page.php"><i class="fas fa-user-plus"></i> Đăng ký ngay</a></p>
+                <p><a href="home.php"><i class="fas fa-home"></i> Quay về trang chủ</a></p>
             </div>
         </form>
     </div>
+
+    <script>
+        // Toggle password visibility
+        function togglePassword(fieldId) {
+            const field = document.getElementById(fieldId);
+            const icon = field.parentElement.querySelector('i');
+            
+            if (field.type === 'password') {
+                field.type = 'text';
+                icon.classList.remove('fa-eye');
+                icon.classList.add('fa-eye-slash');
+            } else {
+                field.type = 'password';
+                icon.classList.remove('fa-eye-slash');
+                icon.classList.add('fa-eye');
+            }
+        }
+
+        // Form submission with loading state
+        document.getElementById('loginForm').addEventListener('submit', function() {
+            const submitBtn = document.getElementById('submitBtn');
+            submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Đang đăng nhập...';
+            submitBtn.disabled = true;
+        });
+    </script>
 </body>
 </html>

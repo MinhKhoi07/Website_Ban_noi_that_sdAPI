@@ -9,16 +9,19 @@ if (!isset($_SESSION['admin_id'])) {
 }
 
 // Xử lý cập nhật trạng thái đơn hàng
-if(isset($_POST['order_id']) && isset($_POST['new_status'])) {
-    $order_id = $_POST['order_id'];
-    $new_status = $_POST['new_status'];
+if(isset($_POST['order_id']) && isset($_POST['status'])) {
+    $order_id = intval($_POST['order_id']);
+    $new_status = trim($_POST['status']);
     
-    $sql = "UPDATE orders SET status = '$new_status' WHERE order_id = $order_id";
-    if($conn->query($sql)) {
-        echo "<script>alert('Cập nhật trạng thái thành công!');</script>";
+    $stmt = $conn->prepare("UPDATE orders SET order_status = ? WHERE order_id = ?");
+    $stmt->bind_param("si", $new_status, $order_id);
+    
+    if($stmt->execute()) {
+        echo "<script>alert('Cập nhật trạng thái thành công!'); window.location.href='admin_orders.php';</script>";
     } else {
         echo "<script>alert('Lỗi khi cập nhật: " . $conn->error . "');</script>";
     }
+    $stmt->close();
 }
 
 // Lấy danh sách đơn hàng
@@ -32,102 +35,17 @@ $result = $conn->query($sql);
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Quản Lý Đơn Hàng - Admin</title>
-    <link rel="stylesheet" href="css/styles.css">
+    <link rel="stylesheet" href="css/admin.css">
+    <link rel="stylesheet" href="css/admin_orders.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-    <style>
-        .admin-orders {
-            max-width: 1200px;
-            margin: 20px auto;
-            padding: 20px;
-        }
-
-        .order-table {
-            width: 100%;
-            border-collapse: collapse;
-            margin-top: 20px;
-            background: white;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-        }
-
-        .order-table th, .order-table td {
-            padding: 12px;
-            text-align: left;
-            border-bottom: 1px solid #ddd;
-        }
-
-        .order-table th {
-            background-color: #f8f9fa;
-            font-weight: bold;
-        }
-
-        .status-select {
-            padding: 5px 10px;
-            border-radius: 4px;
-            border: 1px solid #ddd;
-        }
-
-        .update-btn {
-            padding: 5px 10px;
-            background: #4CAF50;
-            color: white;
-            border: none;
-            border-radius: 4px;
-            cursor: pointer;
-        }
-
-        .update-btn:hover {
-            background: #45a049;
-        }
-
-        .view-details {
-            color: #007bff;
-            cursor: pointer;
-        }
-
-        .order-details {
-            display: none;
-            padding: 15px;
-            background: #f8f9fa;
-            margin-top: 10px;
-            border-radius: 4px;
-        }
-
-        .status-badge {
-            padding: 5px 10px;
-            border-radius: 15px;
-            font-weight: bold;
-        }
-
-        .status-pending {
-            background: #ffeeba;
-            color: #856404;
-        }
-
-        .status-confirmed {
-            background: #cce5ff;
-            color: #004085;
-        }
-
-        .status-shipping {
-            background: #d4edda;
-            color: #155724;
-        }
-
-        .status-delivered {
-            background: #c3e6cb;
-            color: #1e7e34;
-        }
-
-        .status-cancelled {
-            background: #f8d7da;
-            color: #721c24;
-        }
-    </style>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
 </head>
 <body>
-   
+    <?php include 'admin_header.php'; ?>
+
+    <main>       
     <div class="admin-orders">
-        <h2>Quản Lý Đơn Hàng</h2>
+        <h1>Quản Lý Đơn Hàng</h1>
 
         <table class="order-table">
             <thead>
@@ -148,16 +66,18 @@ $result = $conn->query($sql);
                         <td><?php echo number_format($order['total_amount'], 0, ',', '.'); ?> VNĐ</td>
                         <td><?php echo date('d/m/Y H:i', strtotime($order['created_at'])); ?></td>
                         <td>
-                            <form method="POST" action="">
+                            <form method="POST" action="" style="display: flex; align-items: center; gap: 5px;">
                                 <input type="hidden" name="order_id" value="<?php echo $order['order_id']; ?>">
-                                <select name="new_status" style="padding: 5px; margin-right: 5px;">
-                                    <option value="Chờ xác nhận" <?php if($order['status'] == 'Chờ xác nhận') echo 'selected'; ?>>Chờ xác nhận</option>
-                                    <option value="Đã xác nhận" <?php if($order['status'] == 'Đã xác nhận') echo 'selected'; ?>>Đã xác nhận</option>
-                                    <option value="Đang giao hàng" <?php if($order['status'] == 'Đang giao hàng') echo 'selected'; ?>>Đang giao hàng</option>
-                                    <option value="Đã giao hàng" <?php if($order['status'] == 'Đã giao hàng') echo 'selected'; ?>>Đã giao hàng</option>
-                                    <option value="Đã hủy" <?php if($order['status'] == 'Đã hủy') echo 'selected'; ?>>Đã hủy</option>
+                                <select name="status" class="status-select">
+                                    <option value="Chờ xác nhận" <?php if($order['order_status'] == 'Chờ xác nhận') echo 'selected'; ?>>Chờ xác nhận</option>
+                                    <option value="Đã xác nhận" <?php if($order['order_status'] == 'Đã xác nhận') echo 'selected'; ?>>Đã xác nhận</option>
+                                    <option value="Đang giao" <?php if($order['order_status'] == 'Đang giao') echo 'selected'; ?>>Đang giao</option>
+                                    <option value="Hoàn thành" <?php if($order['order_status'] == 'Hoàn thành') echo 'selected'; ?>>Hoàn thành</option>
+                                    <option value="Đã hủy" <?php if($order['order_status'] == 'Đã hủy') echo 'selected'; ?>>Đã hủy</option>
                                 </select>
-                                <input type="submit" value="Lưu" style="padding: 5px 10px; background: #4CAF50; color: white; border: none; border-radius: 3px; cursor: pointer;">
+                                <button type="submit" class="btn-update-status">
+                                    <i class="fas fa-save"></i> Lưu
+                                </button>
                             </form>
                         </td>
                         <td>
@@ -226,8 +146,9 @@ $result = $conn->query($sql);
         });
     });
     </script>
+    </main>
 
-    <?php include 'footer.php'; ?>
+    <?php include 'admin_footer.php'; ?>
 </body>
 </html>
 

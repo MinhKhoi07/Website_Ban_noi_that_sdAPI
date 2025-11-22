@@ -34,16 +34,19 @@ try {
     // Bắt đầu transaction
     $conn->begin_transaction();
 
-    // Tạo đơn hàng mới
-    $order_sql = "INSERT INTO orders (user_id, full_name, email, phone, address, notes, total_amount, status) 
-                  VALUES (?, ?, ?, ?, ?, ?, ?, 'pending')";
-    $order_stmt = $conn->prepare($order_sql);
-    $order_stmt->bind_param("isssssd", $user_id, $full_name, $email, $phone, $address, $notes, $total_amount);
-    $order_stmt->execute();
-    $order_id = $conn->insert_id;
+    // Kiểm tra giỏ hàng có sản phẩm không
+    $check_cart_sql = "SELECT COUNT(*) as cart_count FROM cart WHERE user_id = ?";
+    $check_stmt = $conn->prepare($check_cart_sql);
+    $check_stmt->bind_param("i", $user_id);
+    $check_stmt->execute();
+    $cart_count = $check_stmt->get_result()->fetch_assoc()['cart_count'];
+    
+    if ($cart_count == 0) {
+        throw new Exception("Giỏ hàng trống. Vui lòng thêm sản phẩm trước khi đặt hàng.");
+    }
 
     // Lấy sản phẩm từ giỏ hàng
-    $cart_sql = "SELECT c.*, p.price FROM cart c 
+    $cart_sql = "SELECT c.*, p.price, p.product_name FROM cart c 
                  JOIN products p ON c.product_id = p.product_id 
                  WHERE c.user_id = ?";
     $cart_stmt = $conn->prepare($cart_sql);
@@ -51,12 +54,28 @@ try {
     $cart_stmt->execute();
     $cart_items = $cart_stmt->get_result();
 
+    // Tính tổng tiền và lưu items
+    $items = [];
+    $calculated_total = 0;
+    while ($item = $cart_items->fetch_assoc()) {
+        $items[] = $item;
+        $calculated_total += $item['price'] * $item['quantity'];
+    }
+
+    // Tạo đơn hàng mới
+    $order_sql = "INSERT INTO orders (user_id, full_name, email, phone, address, notes, total_amount, order_status, created_at) 
+                  VALUES (?, ?, ?, ?, ?, ?, ?, 'Chờ xác nhận', NOW())";
+    $order_stmt = $conn->prepare($order_sql);
+    $order_stmt->bind_param("isssssd", $user_id, $full_name, $email, $phone, $address, $notes, $calculated_total);
+    $order_stmt->execute();
+    $order_id = $conn->insert_id;
+
     // Thêm chi tiết đơn hàng
     $detail_sql = "INSERT INTO order_details (order_id, product_id, quantity, price) VALUES (?, ?, ?, ?)";
     $detail_stmt = $conn->prepare($detail_sql);
 
-    while ($item = $cart_items->fetch_assoc()) {
-        $detail_stmt->bind_param("iiid", $order_id, $item['product_id'], $item['quantity'], $item['price']);
+    foreach ($items as $item) {
+        $detail_stmt->bind_param("isid", $order_id, $item['product_id'], $item['quantity'], $item['price']);
         $detail_stmt->execute();
     }
 

@@ -1,0 +1,80 @@
+.user-section {
+    position: absolute;
+    top: 10px;
+    right: 20px;
+    text-align: right;
+}
+
+.user-info {
+    background: #333;
+    color: #EBE9E5;
+    padding: 8px 15px;
+    border-radius: 20px;
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.user-info i {
+    color: #EBE9E5;
+}
+
+.logout-btn {
+    color: #EBE9E5;
+    text-decoration: none;
+    padding: 5px 10px;
+    border-radius: 15px;
+    transition: all 0.3s ease;
+}
+
+.logout-btn:hover {
+    background: #ff4444;
+}
+
+.auth-buttons {
+    display: flex;
+    gap: 10px;
+}
+
+.login-btn, .register-btn {
+    color: #333;
+    text-decoration: none;
+    padding: 8px 15px;
+    border-radius: 20px;
+    transition: all 0.3s ease;
+    font-weight: 500;
+}
+
+.login-btn {
+    background: #EBE9E5;
+    border: 1px solid #333;
+}
+
+.register-btn {
+    background: #333;
+    color: #EBE9E5;
+}
+
+.login-btn:hover {
+    background: #333;
+    color: #EBE9E5;
+}
+
+.register-btn:hover {
+    background: #444;
+}
+
+nav ul {
+    margin-top: 20px;
+}
+
+nav ul li a {
+    padding: 8px 15px;
+    border-radius: 15px;
+    transition: all 0.3s ease;
+}
+
+nav ul li a:hover {
+    background: #333;
+    color: #EBE9E5;
+}

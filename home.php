@@ -21,142 +21,7 @@ if (!$result) {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>TTHUONG Store</title>
     <link rel="stylesheet" href="css/styles.css">
-    <style>
-        /* CSS cho Modal */
-        .button-group {
-        display: flex;
-        gap: 8px;
-        justify-content: center;
-        margin-top: 10px;
-        align-items: center;
-    }
-
-    .add-to-cart, .buy-now {
-        flex: 1;
-        padding: 8px 10px;
-        border: none;
-        border-radius: 4px;
-        cursor: pointer;
-        transition: all 0.3s ease;
-        font-size: 14px;
-        height: 35px;
-        line-height: 1;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        margin: 0;
-    }
-
-    .add-to-cart {
-        background-color: #333333;
-        color: #EBE9E5;
-        border: 1px solid #333333;
-    }
-
-    .buy-now {
-        background-color: #EBE9E5;
-        color: #333333;
-        border: 1px solid #333333;
-    }
-
-    .add-to-cart:hover {
-        background-color: #444444;
-    }
-
-    .buy-now:hover {
-        background-color: #333333;
-        color: #EBE9E5;
-    }
-        .modal {
-            display: none;
-            position: fixed;
-            z-index: 1000;
-            left: 0;
-            top: 0;
-            width: 100%;
-            height: 100%;
-            background-color: rgba(0,0,0,0.7);
-        }
-
-        .modal-content {
-            background-color: #ebe9e5;
-            margin: 5% auto;
-            padding: 20px;
-            border-radius: 8px;
-            width: 80%;
-            max-width: 700px;
-            position: relative;
-        }
-
-        .close {
-            position: absolute;
-            right: 20px;
-            top: 10px;
-            font-size: 28px;
-            cursor: pointer;
-        }
-
-        .product-details {
-            display: flex;
-            gap: 20px;
-            margin-top: 20px;
-        }
-
-        .product-image {
-            flex: 0 0 40%;
-        }
-
-        .product-image img {
-            width: 100%;
-            border-radius: 8px;
-        }
-
-        .product-info {
-            flex: 1;
-        }
-
-        .product {
-            cursor: pointer;
-            transition: transform 0.3s;
-        }
-
-        .product:hover {
-            transform: translateY(-5px);
-        }
-
-        /* Style cho slideshow - xóa style của m�i tên và caption */
-        .slideshow-container {
-            max-width: 1200px;
-            position: relative;
-            margin: 0 auto 40px auto;
-            overflow: hidden;
-            border-radius: 10px;
-            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
-        }
-
-        .mySlides {
-            display: none;
-            width: 100%;
-            height: 500px;
-            position: relative;
-        }
-
-        .mySlides img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-        }
-
-        .fade {
-            animation-name: fade;
-            animation-duration: 1.5s;
-        }
-
-        @keyframes fade {
-            from {opacity: .4} 
-            to {opacity: 1}
-        }
-    </style>
+    <link rel="stylesheet" href="css/trangchu.css">
 </head>
 <body>
     <?php require_once 'header.php'; ?>
@@ -305,7 +170,7 @@ if (!$result) {
             alert('Đã thêm ' + productName + ' vào giỏ hàng!');
         } else if (data.message === 'not_logged_in') {
             if (confirm('Bạn cần đăng nhập để thêm vào giỏ hàng. Đến trang đăng nhập?')) {
-                window.location.href = 'dangnhap.php';
+                window.location.href = 'login_page.php';
             }
         } else {
             alert(data.message || 'Có lỗi xảy ra khi thêm vào giỏ hàng');

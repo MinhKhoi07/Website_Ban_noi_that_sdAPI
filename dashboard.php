@@ -1,7 +1,7 @@
 <?php
 session_start();
 if (!isset($_SESSION['admin_id'])) {
-    header('Location: dangnhapAdmin.php');
+    header('Location: admin_login.php');
     exit();
 }
 
@@ -12,8 +12,28 @@ $stats = [
     'total_products' => $conn->query("SELECT COUNT(*) as count FROM products")->fetch_assoc()['count'],
     'total_orders' => $conn->query("SELECT COUNT(*) as count FROM orders")->fetch_assoc()['count'],
     'total_users' => $conn->query("SELECT COUNT(*) as count FROM users")->fetch_assoc()['count'],
-    'total_revenue' => $conn->query("SELECT SUM(total_amount) as sum FROM orders WHERE order_status = 'completed'")->fetch_assoc()['sum']
+    'total_revenue' => $conn->query("SELECT SUM(total_amount) as sum FROM orders WHERE order_status = 'Hoàn thành'")->fetch_assoc()['sum']
 ];
+
+// Tính tháng trước
+$prev_month = date('n') - 1;
+$prev_year = date('Y');
+if ($prev_month < 1) {
+    $prev_month = 12;
+    $prev_year--;
+}
+
+// Doanh thu tháng trước
+$prev_month_revenue_query = "
+    SELECT SUM(total_amount) as revenue
+    FROM orders 
+    WHERE YEAR(created_at) = ? AND MONTH(created_at) = ?
+    AND order_status != 'Đã hủy'
+";
+$stmt = $conn->prepare($prev_month_revenue_query);
+$stmt->bind_param("ii", $prev_year, $prev_month);
+$stmt->execute();
+$prev_month_revenue = $stmt->get_result()->fetch_assoc()['revenue'] ?? 0;
 
 // Lấy đơn hàng gần đây
 $recentOrders = $conn->query("
@@ -37,24 +57,7 @@ $recentOrders = $conn->query("
    
 </head>
 <body>
-    <header>
-        <div class="header-content">
-            <div class="logo-section">
-                <img src="./images/logoo.jpg" alt="Logo" class="admin-logo">
-                <h1>TTHUONG STORE - Trang Quản Trị</h1>
-            </div>
-            <nav>
-                <ul>
-                    <li><a href="QTVindex.php"><i class="fas fa-home"></i> Dashboard</a></li>
-                    <li><a href="admin_products.php"><i class="fas fa-box"></i> Sản phẩm</a></li>
-                    <li><a href="admin_orders.php"><i class="fas fa-shopping-cart"></i> Đơn hàng</a></li>
-                    <li><a href="admin_users.php"><i class="fas fa-users"></i> Khách hàng</a></li>
-                    <li><a href="admin_log.php"><i class="fas fa-list"></i> Lịch sử đăng nhập </a></li>
-                    <li><a href="trangchu.php"><i class ="fas fa-sign-out-alt"></i> Đăng xuất</a></li>
-                </ul>
-            </nav>
-        </div>
-    </header>
+    <?php include 'admin_header.php'; ?>
 
     <main>
         <div class="welcome-section">
@@ -85,10 +88,13 @@ $recentOrders = $conn->query("
                 </div>
             </div>
             <div class="stat-card">
-                <i class="fas fa-money-bill-wave stat-icon"></i>
+                <i class="fas fa-chart-line stat-icon"></i>
                 <div class="stat-info">
-                    <h3>Doanh thu</h3>
-                    <p><?php echo number_format($stats['total_revenue']); ?>đ</p>
+                    <h3>Doanh thu tháng <?php echo $prev_month; ?></h3>
+                    <p><?php echo number_format($prev_month_revenue); ?>đ</p>
+                    <a href="admin_revenue.php" class="view-detail">
+                        <i class="fas fa-arrow-right"></i> Xem chi tiết
+                    </a>
                 </div>
             </div>
         </div>
@@ -131,8 +137,6 @@ $recentOrders = $conn->query("
         </div>
     </main>
 
-    <footer>
-        <p><i class="far fa-copyright"></i> 2024 TTHUONG STORE. All rights reserved.</p>
-    </footer>
+    <?php include 'admin_footer.php'; ?>
 </body>
 </html>

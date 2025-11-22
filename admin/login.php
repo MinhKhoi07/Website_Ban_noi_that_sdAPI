@@ -39,7 +39,7 @@ if(isset($_SESSION['admin_id'])) {
                 </div>
 
                 <button type="submit" class="btn-login">Đăng Nhập</button>
-                <a href="../trangchu.php" class="btn-back">Quay về Trang Chủ</a>
+                <a href="../home.php" class="btn-back">Quay về Trang Chủ</a>
             </form>
         </div>
     </div>

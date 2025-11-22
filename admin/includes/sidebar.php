@@ -36,6 +36,12 @@
             </a>
         </li>
         <li>
+            <a href="../admin_reviews.php" class="<?php echo basename($_SERVER['PHP_SELF']) == 'admin_reviews.php' ? 'active' : ''; ?>">
+                <i class="fas fa-star"></i>
+                <span>Đánh giá</span>
+            </a>
+        </li>
+        <li>
             <a href="reports.php" class="<?php echo basename($_SERVER['PHP_SELF']) == 'reports.php' ? 'active' : ''; ?>">
                 <i class="fas fa-chart-bar"></i>
                 <span>Báo cáo</span>

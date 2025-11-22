@@ -24,6 +24,6 @@ if (isset($_SESSION['admin_id'])) {
 session_destroy();
 
 // Chuyển hướng về trang đăng nhập
-header('Location: dangnhap.php');
+header('Location: login_page.php');
 exit();
 ?> 
