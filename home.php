@@ -126,13 +126,13 @@ if (!$result) {
     <section id="home">
         <div class="slideshow-container">
             <div class="mySlides fade">
-                <img src="images/banner1.jpg" style="width:100%">
+                <img src="images/banner1.png" style="width:100%">
             </div>
             <div class="mySlides fade">
-                <img src="images/banner2.jpg" style="width:100%">
+                <img src="images/banner2.png" style="width:100%">
             </div>
             <div class="mySlides fade">
-                <img src="images/banner3.jpg" style="width:100%">
+                <img src="images/banner3.png" style="width:100%">
             </div>
         </div>
         <h2>Chào mừng đến với HKT Store</h2>
