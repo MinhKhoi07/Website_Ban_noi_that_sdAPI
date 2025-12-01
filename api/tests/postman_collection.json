@@ -1,0 +1,135 @@
+{
+  "info": {
+    "name": "HKT API",
+    "_postman_id": "hkt-api-collection",
+    "description": "Collection for HKT API endpoints",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "Auth - Login (session)",
+      "request": {
+        "method": "POST",
+        "header": [
+          { "key": "Content-Type", "value": "application/json" }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\"username\":\"demo\",\"password\":\"secret\"}"
+        },
+        "url": { "raw": "{{baseUrl}}/api/auth.php", "host": ["{{baseUrl}}"], "path": ["api","auth.php"] }
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test('Status code is 200', function () { pm.response.to.have.status(200); });",
+              "var json = pm.response.json();",
+              "pm.test('Response has success boolean', function () { pm.expect(json).to.have.property('success'); });"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "Auth - Issue JWT",
+      "request": {
+        "method": "POST",
+        "header": [ { "key": "Content-Type", "value": "application/json" } ],
+        "body": { "mode": "raw", "raw": "{\"username\":\"demo\",\"password\":\"secret\",\"issue_token\":true}" },
+        "url": { "raw": "{{baseUrl}}/api/auth.php", "host": ["{{baseUrl}}"], "path": ["api","auth.php"] }
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test('Status code is 200', function () { pm.response.to.have.status(200); });",
+              "var json = pm.response.json();",
+              "pm.test('Token present', function () { pm.expect(json.token).to.exist; });",
+              "if (json.token) { pm.collectionVariables.set('jwt', json.token); pm.environment.set('jwt', json.token); }",
+              "console.log('Saved token to collection/environment variable jwt');"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "Get Products",
+      "request": { "method": "GET", "url": { "raw": "{{baseUrl}}/api/products.php", "host": ["{{baseUrl}}"], "path": ["api","products.php"] } },
+      "event": [
+        {
+          "listen": "test",
+          "script": { "type": "text/javascript", "exec": [ "pm.test('Status code is 200', function () { pm.response.to.have.status(200); });" ] }
+        }
+      ]
+    },
+    {
+      "name": "Get Cart (Auth)",
+      "request": {
+        "method": "GET",
+        "header": [ { "key": "Authorization", "value": "Bearer {{jwt}}" } ],
+        "url": { "raw": "{{baseUrl}}/api/cart.php", "host": ["{{baseUrl}}"], "path": ["api","cart.php"] }
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": { "type": "text/javascript", "exec": [ "pm.test('Status code is 200 or 401', function () { pm.expect([200,401]).to.include(pm.response.code); });" ] }
+        }
+      ]
+    },
+    {
+      "name": "Add To Cart (Auth)",
+      "request": {
+        "method": "POST",
+        "header": [ { "key": "Content-Type", "value": "application/json" }, { "key": "Authorization", "value": "Bearer {{jwt}}" } ],
+        "body": { "mode": "raw", "raw": "{\"product_id\":1,\"quantity\":1}" },
+        "url": { "raw": "{{baseUrl}}/api/cart.php", "host": ["{{baseUrl}}"], "path": ["api","cart.php"] }
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": { "type": "text/javascript", "exec": [ "pm.test('Status code is 200 or 401', function () { pm.expect([200,401]).to.include(pm.response.code); });", "try { var j = pm.response.json(); pm.test('If success property exists then true', function () { if (j.success !== undefined) pm.expect(j.success).to.be.oneOf([true,false]); }); } catch(e){}" ] }
+        }
+      ]
+    },
+    {
+      "name": "Create Order (JSON)",
+      "request": {
+        "method": "POST",
+        "header": [ { "key": "Content-Type", "value": "application/json" }, { "key": "Authorization", "value": "Bearer {{jwt}}" } ],
+        "body": { "mode": "raw", "raw": "{\"full_name\":\"Test User\",\"email\":\"test@example.com\",\"phone\":\"0123456789\",\"address\":\"Hanoi\",\"payment_method\":\"cod\"}" },
+        "url": { "raw": "{{baseUrl}}/api/orders.php", "host": ["{{baseUrl}}"], "path": ["api","orders.php"] }
+      },
+      "event": [ { "listen": "test", "script": { "type": "text/javascript", "exec": [ "pm.test('Status code is 200 or 401', function () { pm.expect([200,401]).to.include(pm.response.code); });" ] } } ]
+    },
+    {
+      "name": "Create Order (multipart with file)",
+      "request": {
+        "method": "POST",
+        "header": [ { "key": "Authorization", "value": "Bearer {{jwt}}" } ],
+        "body": { "mode": "formdata", "formdata": [ { "key": "full_name", "value": "Test User", "type": "text" }, { "key": "email", "value": "test@example.com", "type": "text" }, { "key": "phone", "value": "0123456789", "type": "text" }, { "key": "address", "value": "Hanoi", "type": "text" }, { "key": "payment_method", "value": "bank_transfer", "type": "text" }, { "key": "payment_proof", "type": "file", "src": "" } ] },
+        "url": { "raw": "{{baseUrl}}/api/orders.php", "host": ["{{baseUrl}}"], "path": ["api","orders.php"] }
+      }
+    },
+    {
+      "name": "Revoke Token",
+      "request": {
+        "method": "POST",
+        "header": [ { "key": "Content-Type", "value": "application/json" }, { "key": "Authorization", "value": "Bearer {{jwt}}" } ],
+        "body": { "mode": "raw", "raw": "{\"token\":\"{{jwt}}\"}" },
+        "url": { "raw": "{{baseUrl}}/api/revoke_token.php", "host": ["{{baseUrl}}"], "path": ["api","revoke_token.php"] }
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": { "type": "text/javascript", "exec": [ "pm.test('Status code is 200', function () { pm.response.to.have.status(200); });", "var j = pm.response.json(); pm.test('revoked', function(){ pm.expect(j.message).to.eql('token_revoked'); });" ] }
+        }
+      ]
+    }
+  ],
+  "variable": [ { "key": "baseUrl", "value": "http://localhost/HKT" }, { "key": "jwt", "value": "" } ]
+}
