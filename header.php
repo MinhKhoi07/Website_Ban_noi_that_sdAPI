@@ -6,8 +6,8 @@ if (session_status() === PHP_SESSION_NONE) {
 <header class="user-header">
     <div class="header-top">
         <div class="logo-section">
-            <img src="./images/logoo.jpg" alt="Logo" class="site-logo">
-            <h1>TTHUONG Store</h1>
+            <img src="./images/logo.png" alt="Logo" class="site-logo">
+            <h1>HKT Store</h1>
         </div>
         
         <div class="header-actions">

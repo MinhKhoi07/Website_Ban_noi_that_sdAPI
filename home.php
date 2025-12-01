@@ -135,11 +135,11 @@ if (!$result) {
                 <img src="images/banner3.jpg" style="width:100%">
             </div>
         </div>
-        <h2>Chào mừng đến với TTHUONG Store</h2>
-        <p>TTHUONG- "Hãy biến không gian của bạn thành một tác phẩm nghệ thuật"</p>
-        <p>TTHUONG Store là điểm đến hoàn hảo cho những ai yêu thích sự sáng tạo và mong muốn mang vẻ đẹp nghệ thuật vào không gian sống. Với đa dạng sản phẩm decor, nội thất, và phụ kiện tinh tế, cửa hàng không chỉ cung cấp mà còn truyền cảm hứng để bạn tạo nên một không gian đậm chất riêng.
-        <p>Từng món đồ tại TTHUONG Store đều được chọn lọc kỹ lưỡng, kết hợp giữa phong cách hiện đại và nét tinh tế thủ công, giúp biến từng góc nhỏ trong nhà thành nơi chứa đựng cảm xúc và phong cách nghệ thuật độc đáo.</p>
-        <p>Hãy để TTHUONG Store đồng hành cùng bạn trong hành trình tô điểm tổ ấm và biến từng khoảnh khắc sống trở nên đáng nhớ.</p>
+        <h2>Chào mừng đến với HKT Store</h2>
+        <p>HKT - "Hãy biến không gian của bạn thành một tác phẩm nghệ thuật"</p>
+        <p>HKT Store là điểm đến hoàn hảo cho những ai yêu thích sự sáng tạo và mong muốn mang vẻ đẹp nghệ thuật vào không gian sống. Với đa dạng sản phẩm decor, nội thất, và phụ kiện tinh tế, cửa hàng không chỉ cung cấp mà còn truyền cảm hứng để bạn tạo nên một không gian đậm chất riêng.
+        <p>Từng món đồ tại HKT Store đều được chọn lọc kỹ lưỡng, kết hợp giữa phong cách hiện đại và nét tinh tế thủ công, giúp biến từng góc nhỏ trong nhà thành nơi chứa đựng cảm xúc và phong cách nghệ thuật độc đáo.</p>
+        <p>Hãy để HKT Store đồng hành cùng bạn trong hành trình tô điểm tổ ấm và biến từng khoảnh khắc sống trở nên đáng nhớ.</p>
     </section>
 
     <section id="products">
